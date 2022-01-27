@@ -22,6 +22,7 @@ class ImageEditor():
             print(str(e))
             pass
 
+
     def add_margin(self, img, top, right, bottom, left, color):
         width, height = img.size
         new_width = width + right + left
@@ -31,12 +32,40 @@ class ImageEditor():
         return result
 
 
+    def reduce(self, item):
+        try:
+            print("q")
+            img = Image.open(item)
+            width, height = img.size
+
+            crop_width =  width - int(width / 10)
+            crop_height = height - int(height / 10)
+
+            img = img.crop(((width - crop_width) // 2,
+                         (height - crop_height) // 2,
+                         (width + crop_width) // 2,
+                         (height + crop_height) // 2))
+
+            img.save(item.replace(".jpg", "") + "Rd" + ".jpg")
+
+        except Exception as e:
+            print(str(e))
+            pass
+
 if __name__ == '__main__':
     ie = ImageEditor()
-    for idx,item in enumerate(sys.argv):
-        if idx == 0:
-            continue
-        ie.create_squere(item)
+    print(sys.argv)
+
+
+    # for idx,item in enumerate(sys.argv):
+    #     print(sys.argv)
+    #     if idx == 0:
+    #         continue
+    if(sys.argv[1] ==   "-s"):
+        ie.create_squere(sys.argv[2])
+
+    if(sys.argv[1] ==   "-r"):
+        ie.reduce(sys.argv[2])
 
 
 

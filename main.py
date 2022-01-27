@@ -18,4 +18,5 @@ if __name__ == '__main__':
 
     reg = MenuContextItem()
     reg.register_as_menu_context_item()
+    reg.register_as_menu_context_item2()
 
