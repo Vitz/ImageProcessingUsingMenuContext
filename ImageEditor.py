@@ -1,22 +1,28 @@
 import sys
-
 from PIL import Image
 
 class ImageEditor():
-    def __init__(self):
-        pass
-
-    def create_squere(self, item):
+    def create_square(self, item):
         try:
             print("q")
             img = Image.open(item)
             width, height = img.size
             margin_size = width - height
             if margin_size > 0:
-                result = self.add_margin(img, top=int(margin_size/2), right=0, bottom=int(margin_size/2), left=0, color= "#FFFFFF")
+                result = self.add_margin(img,
+                                         top=int(margin_size/2),
+                                         right=0,
+                                         bottom=int(margin_size/2),
+                                         left=0,
+                                         color= "#FFFFFF")
             else:
-                result = self.add_margin(img, top=0, right=int(margin_size/2), bottom=0, left=int(margin_size/2), color= "#FFFFFF")
-            result.save(item.replace(".jpg", "") + "Sq" + ".jpg")
+                result = self.add_margin(img,
+                                         top=0,
+                                         right=int(-margin_size/2),
+                                         bottom=0,
+                                         left=int(-margin_size/2),
+                                         color= "#FFFFFF")
+            result.save(item.replace(".jpg", "").replace(".png","") + "Sq" + ".jpg")
 
         except Exception as e:
             print(str(e))
@@ -38,8 +44,8 @@ class ImageEditor():
             img = Image.open(item)
             width, height = img.size
 
-            crop_width =  width - int(width / 10)
-            crop_height = height - int(height / 10)
+            crop_width = width - int(width / 5)
+            crop_height = height - int(height / 5)
 
             img = img.crop(((width - crop_width) // 2,
                          (height - crop_height) // 2,
@@ -54,17 +60,11 @@ class ImageEditor():
 
 if __name__ == '__main__':
     ie = ImageEditor()
-    print(sys.argv)
 
+    if(sys.argv[1] ==  "-s"):
+        ie.create_square(sys.argv[2])
 
-    # for idx,item in enumerate(sys.argv):
-    #     print(sys.argv)
-    #     if idx == 0:
-    #         continue
-    if(sys.argv[1] ==   "-s"):
-        ie.create_squere(sys.argv[2])
-
-    if(sys.argv[1] ==   "-r"):
+    if(sys.argv[1] ==  "-r"):
         ie.reduce(sys.argv[2])
 
 
