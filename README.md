@@ -1,6 +1,9 @@
 # ImageProcessingUsingMenuContext
 
-Adds some image processing feautures to Windows Context Menu  (mouse right-click on file).
+Adds custom image processing features to Windows Context Menu (mouse right-click on file). I created it because sometimes I need to resize some images quickly or remove white margins. Included methods are not perfect but it's just enaugh for me.
+
+It's more like tool to create own functions and register it asap in Windows Context Menu than library to image processing. 
+
 
 # Add custom function
 To add new function (e.g resize) in Windows Context Menu just add new method to ImageEditor class and run Install.py like:
