@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     scripts = [MenuContextItem(x) for x in get_functions_names()]
     mm = MenuContextCreator(scripts)
-    mm.clean()
     mm.register_functions_as_menu_context_item()
+    mm.register_functions_as_dir_menu_context_item()
     _ = RunnersCreator(mm.get_menu_items())
 

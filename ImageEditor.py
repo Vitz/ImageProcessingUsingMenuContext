@@ -1,20 +1,39 @@
+from os.path import isfile, isdir
+from os import listdir, path
 import sys
 from PIL import Image
 
 
 class ImageEditor():
     def quick_resize_max_1280x720(self, item):
-        x = (1280,720)
+        x = (1280, 720)
         try:
             img = Image.open(item)
             width, height = img.size
             if width > x[0] or height > x[1]:
                 img.thumbnail(x, Image.ANTIALIAS)
-            img.save(item.replace(".jpg", "").replace(".png", "") + "max1280" + ".jpg")
+            img.save(item.replace(".jpg", "").replace(".png", "") + "max1280" + ".jpg", subsampling=0, quality=100)
         except Exception as e:
             print(str(e))
 
-    def quick_create_square(self, item):
+    def quick_create_square_dir(self, root):
+        all = []
+        for sub in listdir(root):
+            sub_full = path.join(root, sub)
+
+            if isfile(sub_full):
+                all.append(sub_full)
+
+            if isdir(sub_full):
+                for only_files in listdir(sub_full):
+                    only_files_full = path.join(sub_full, only_files)
+                    if isfile(only_files_full):
+                        all.append(only_files_full)
+
+        for file in all:
+            self.quick_create_square(file, replace=True)
+
+    def quick_create_square(self, item, replace=False):
         try:
             img = Image.open(item)
             width, height = img.size
@@ -33,8 +52,11 @@ class ImageEditor():
                                          bottom=0,
                                          left=int(-margin_size / 2),
                                          color="#FFFFFF")
-            result.save(item.replace(".jpg", "").replace(".png", "") + "Sq" + ".jpg")
 
+            path = item.replace(".jpg", "").replace(".png", "") + ".jpg"
+            if not replace:
+                path.replace(".jpg", "Sq.jpg")
+            result.save(path, subsampling=0, quality=100)
         except Exception as e:
             print(str(e))
 
@@ -51,7 +73,7 @@ class ImageEditor():
                             (width + crop_width) // 2,
                             (height + crop_height) // 2))
 
-            img.save(item.replace(".jpg", "") + "Rd" + ".jpg")
+            img.save(item.replace(".jpg", "") + "Rd" + ".jpg", subsampling=0, quality=100)
 
         except Exception as e:
             print(str(e))
